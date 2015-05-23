@@ -9,6 +9,9 @@
 \usepackage{url, rotating}
 
 \usepackage{subfig}
+\usepackage{color}
+
+\newcommand{\todo}[1]{\noindent{\textcolor{red}{[TODO: #1]}}}
 
 \begin{document}
 \wpnumber{4} \wptitle{Peer Modeling and Search}
@@ -89,18 +92,22 @@ communication channels between the platform and the peers. \\
 \label{sec:profiling}
 \input{sections/profiling}
 
-\section{Matching}
-\label{sec:matching}
+\section{Matching \& Ranking}
+\label{sec:matching_ranking}
 \input{sections/matching}
 
-\section{Ranking}
-\label{sec:ranking}
-\input{sections/ranking}
-
 \section{Privacy-preserving Measures}
-{\it here goes all discussion on how the current implementation
-  supports privacy, what is missing and when -and if- it will be delivered}
+{\it here goes all discussion on how the current implementation supports privacy, what is missing and when -and if- it will be delivered}
+ 
+\todo{this section could be removed because the privacy preserving measures are embedded in sections \ref{sec:profiling} and \ref{sec:matching_ranking}}
 
+\section{Evaluation}
+\label{sec:evaluation}
+\input{sections/evaluation}
+
+\section{Integration}
+\label{sec:integration}
+\input{sections/integration}
 
 \section{Conclusions}
 \label{sec:concl}
