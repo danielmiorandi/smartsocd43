@@ -1,1 +1,33 @@
-\todo{DANIELE - first draft by 30/May}
+The Peer Manager has been integrated in the SmartSociety platform
+during the second year of the project, and released as component of
+the version 1.0 of the platform. The Peer Manager functionality
+is used in both project-wide scenarios, i.e., SmartShare and
+AskSmartSociety!~\cite{D8.2,D8.3}.
+
+In this section we briefly describe how the PM is used in the context
+of overall SmartSociety platform architecture, with reference to the
+two aforementioned scenarios.
+
+In both contexts, the PM is used to perform all operations related to
+the management of collectives
+(creation, retrieval of peers in a collective and retrieval of peer
+information and contact method for communication
+purposes~\cite{D8.2}). In SmartShare a collective is the set of peers
+representing users taking part in a ride. In AskSmartSociety! a
+collective is the set of peers selected as adequate (by the PM) to
+answer a given question. These operations are typically requested by
+the application peer (creation of collective) and by the SmartCom
+communication middleware (retrieval of peers in a collective and peer information).
+
+The PM search functionality plays a key role in the AskSmartSociety!
+application scenario, where it is exploited to identify a suitable set
+of peers who could best contribute to answer a given
+question. This function is invoked by the OM and the results trigger
+the execution of the negotiation process~\cite{D8.2}. In the context
+of AskSmartSociety!, the ability of
+the PM to handle transparently machine and human peers represent a key
+feature, in that it enables full hybridity of the application. Also, the usage of the Concept Search approach, and in
+particular the ability of the PM to perform semantic matching on
+peers' attributes is instrumental in identifying human peers with the
+right expertise to answer a given query, hence contributing
+significantly to the quality of the answers collected.
