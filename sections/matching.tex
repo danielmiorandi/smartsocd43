@@ -107,12 +107,144 @@ Not supported & \textbf{Meta-attributes} \\
 
 
 \subsection{Implementation}
-\todo{how it has been implemented} 
+%\todo{how it has been implemented} 
+
+The Peer Manager's implementation of its search service (search, matching and ranking services) uses Java in combination with Hibernate and Spring frameworks, a PostgreSQL database is used for storage of peers' information and profiles. The Peer Manager front-end uses NodeJs and exposes its basic search functionalities through a low level http API. In order to facilitate the interaction with other SmartSociety components (also in light of specific prototypes and DEMOs), the PM provides also a high level API that results in much more powerful and easy-to-use calls. Such calls leverage the full power of the Peer Manager and allow other components to abstract from internal details related to the PM's implementation. It is important to note that the implementation of the underlying mechanisms at the core of the PM's search implementation represent previous knowledge/work of the University of Trento Knowdive research group, so its source code will not be made commonly available. However, the full source code of the high level API corresponding to the front-end implementation that is specific for SmartSociety will be made available as part of the project. In the rest of this section we provide more details on how to use the search service, which in turn is related with the implementation of the high level API. 
 
 \subsubsection{Search Service}
-\todo{documentation of search service including syntax/examples of EQL}
+%\todo{documentation of search service including syntax/examples of EQL}
+
+The more flexible access to search services can be exploited through the specification of a search query using EQL language. The current implementation of the PM's search service supports only a subset of HQL. However, new features will be added if (and when) needed. A simple example of an entity repository and examples of basic building blocks of EQL queries are shown in Figure~\ref{fig:search_example} in order to introduce some of the search features that are currently implemented. 
+
+%\todo{figure}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{figures/searchExample}
+\caption{Example of simple entity repository}
+\label{fig:search_example}
+\end{figure}
+
+The example entity repository has 3 entity types: \emph{Location}, \emph{Restaurant}, and \emph{Person}. Each entity type is instantiated by several entities. For instance, \emph{Trento}, \emph{Povo} and \emph{Milan} are names of entites of type \emph{Location}, \emph{Anfiteatro} is the name of a \emph{Restaurant} entity and \emph{Enrico} is the name of a \emph{Person} entity. Entities have different attributes, for instance, \emph{description} attribute of \emph{Location} entity contains textual information; while location attributes connect person and restaurant with locations correspondingly.
+
+\paragraph{FROM clause.}
+The simplest EQL query should contain at least the keyword \emph{from}, a type of entity, and an identifier for the resulting entities. For instance, in order to find all the restaurants stored in the entity repository, the query ``\texttt{FROM restaurant r}'' can be used.
+%\begin{center}
+%\begin{tabular}{l}
+%\texttt{FROM restaurant r} \\
+%\end{tabular}
+%\end{center}
+Note that there is no need to know the exact name of the entity type, concept search approach can also be used for matching entity types. For instance, in the case when there is a synonymy relationship between concepts \emph{restaurant} and \emph{bar} in the underlying knowledge base, the search to find all the restaurants can also be performed by using the query ``\texttt{FROM bar r}''.
+%\begin{center}
+%\begin{tabular}{l}
+%\texttt{FROM bar r} \\
+%\end{tabular}
+%\end{center}
+
+Another use of concept search query in \emph{from} clause can be to select a subset of all the entities for a given entity type. For instance, the following query finds only those restaurants that describe steakhouses:\begin{center}
+\begin{tabular}{l}
+\texttt{FROM restaurant[description:steakhouse] r} \\
+\end{tabular}
+\end{center}The query requires that descriptions of found restaurant entities contain complex concepts which are more specific than complex concept for `steakhouse', e.g. `steakhouse in Trento'.
+\paragraph{SELECT clause.} 
+The following query can be used to find descriptions and locations of all the restaurants. Which means to select attributes which are equivalent ore more specific than `description' and `location' of restaurant entities:
+\begin{center}
+\begin{tabular}{l}
+\texttt{SELECT \textbf{restaurant1.description, restaurant1.location}} \\
+\texttt{FROM restaurant \textbf{restaurant1}} \\
+\end{tabular}
+\end{center}
+Note that also here there is no need to know the exact names for entity attributes. Equivalent or more general concepts can also be used. Moreover,
+%For instance, we can search for related places with the query:
+%\begin{center}
+%\begin{tabular}{l}
+%\texttt{SELECT restaurant1.description, \textbf{restaurant1.place}} \\
+%\texttt{FROM restaurant restaurant1} \\
+%\end{tabular}
+%\end{center}
+%Select 
+the clause can also be used in combination with the selection of a subset of entities from a given type. For instance, find descriptions and related locations for all the steakhouses, i.e., select attributes which are equivalent ore more specific than `description' and `location' of restaurant entities with description containing complex concept (or concepts which are equivalent ore more specific than complex concept) `steakhouse':
+\begin{center}
+\begin{tabular}{l}\texttt{SELECT restaurant1.description, \textbf{restaurant1.place}} \\ 
+\texttt{FROM restaurant[\textbf{description:steakhouse}] restaurant1} \\
+\end{tabular}
+\end{center}
+
+\paragraph{JOIN.}
+Join on entities is probably the most important feature of EQL. For intance, the descriptions and location names for all the restaurants can be found with the following query:
+\begin{center}
+\begin{tabular}{l}
+\texttt{SELECT restaurant1.description, location1.name} \\\texttt{FROM \textbf{restaurant restaurant1 JOIN restaurant1.location location1}}
+\end{tabular}
+\end{center}Note that an arbitrary number of joins is allowed with the following pattern:
+\begin{center}
+\begin{tabular}{l}\texttt{... entity1 JOIN entity1.relationalAttribute entity2 ...}\\
+\end{tabular}
+\end{center}
+
+
+\paragraph{GROUP BY, WHERE, and ORDER BY} clauses from HQL are supported also in EQL. Among them, the ORDER BY clause is of key importance because is the one that is used to implement the ranking of search results. For instance, to find the number of restaurants for each location and orders the results by location names (i.e., alphabetical order), we can use the query:
+\begin{center}
+\begin{tabular}{l}
+\texttt{SELECT l.name, count(r)} \\
+\texttt{FROM restaurant r join r.location l} \\
+\texttt{GROUP BY l.name} \\
+\texttt{ORDER BY l.name} \\
+\end{tabular}
+\end{center}On the other hand, to order results by the number of restaurants on each location (i.e., numerical order), the following query can be used:
+\begin{center}
+\begin{tabular}{l}\texttt{SELECT l.name, count(r)} \\
+\texttt{FROM restaurant r join r.location l} \\
+\texttt{GROUP BY l.name} \\
+\texttt{ORDER BY count(r)} \\
+\end{tabular}
+\end{center}
+
+%It is also important to mention the current limitations, which include:
+%\begin{enumerate}
+%\item \textbf{Joins:} Only inner join is supported, i.e., the keyword \emph{join} is used for specifying inner join.%\item \textbf{Nulls:} If an attribute name is selected, then only NOT NULL attribute values will be returned.
+%
+%\begin{tabular}{ll}%\texttt{SELECT cat FROM Cat cat} & [all cats will be found] \\%\texttt{SELECT cat, cat.name FROM Cat cat} & [cats without names will be skipped] \\
+%\end{tabular}%\item \textbf{Aggregates:} Only simple aggregate functions on attributes are supported, e.g. count(cat).%\item \textbf{Dots:} As in HQL, dot-notation is used for accessing entity attributes. There are limitations on how dots are used. The first (and only the first) dot defines an attribute (e.g. cat.name). The second dot can be used only for accessing the meta-data (e.g. cat.name.metadata). Note, that it is not really a limitation because all the queries with two or more dots can be rewritten by using explicit joins, as it is shown below:
+%
+%\begin{tabular}{p{0.45\textwidth}p{0.45\textwidth}}%\texttt{SELECT cat.mate.name} & [not supported] \\
+%\texttt{FROM Cat cat} & \\
+% & \\%\texttt{SELECT mate.name}  & [equivalent query with explicit join] \\
+%\texttt{FROM Cat cat} & \\
+%\texttt{JOIN cat.mate mate} & \\
+%\end{tabular}
+%\end{enumerate}
+
+Additional notes:
+\begin{itemize}
+\item If no attribute is specified in select or where clause, entity id is used as a default attribute. For instance, ``\texttt{SELECT cat FROM Cat cat}'' internally, will be translated to ``\texttt{SELECT cat.id FROM Cat cat}''
+
+\item Specifying an alias (e.g. cat) is required. For instance, ``\texttt{FROM Cat cat}''
+
+\item If concepts with multi-words are used for defining types or attributes, spaces between words should be replaced with underscore `\_'. For instance, ``\texttt{SELECT cat.first\_name FROM Cat cat}''.
+
+\item Underscore `\_' can also be used for specifying correct concepts which should be used for attribute names and types. For instance, ``\texttt{SELECT cat.name\_123 FROM Cat\_321 cat}''.
+\end{itemize}
+
+
 
 \subsubsection{Main Endpoints Documentation}
 \todo{specifications of APIs}
+
+\begin{tabular}{llp{4cm}p{5cm}}
+\toprule
+Method & Api & Description & Example \\
+\midrule
+GET & /peers/search & Returns a set of profile of the peers that match with the characteristics specified in the input query & \\
+\bottomrule
+\end{tabular}
+
+
+
+
+
+
+
+
+
 
 
