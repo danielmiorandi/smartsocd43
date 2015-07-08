@@ -31,7 +31,7 @@ This storage separation for each of the peers and the platform is one of the Pri
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=0.7\linewidth]{figures/peerBase-diagram.pdf}
+	\includegraphics[width=0.65\linewidth]{figures/peerBase-diagram.pdf}
 	\caption{Partial view of the Peer Manager internal architecture. Each subject its assigned its own peer storage, while the platform itself offers a shared Knowledge and Entity storages for different interactions.}
 	\label{fig:peerManagerPlatform}
 \end{figure}
@@ -46,7 +46,7 @@ The Peer Manager component has been developed by following a three layered appro
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.4\textwidth]{figures/pm-component-layers.png}
+\includegraphics[width=0.3\textwidth]{figures/pm-component-layers.png}
 \caption{Implementation layers of the Peer Manager}
 \label{fig:pm-component-layers}
 \end{figure}
@@ -71,4 +71,54 @@ This is a new component being developed specifically for the SmartSociety projec
 \todo{Content describing the purpose of this layer and the technologies used to implement it will be added to this section for the final version of this document}
 
 \subsubsection{Integration with PPL policy language}
-\todo{This content is forthcoming}
+\todo{The content of this section needs to be refined}
+
+The integration process has been separated in three progressive steps or levels in order to better manage our development resources while complying with the SmartSociety project requirements.
+
+At each successive level both, the computational effectiveness of the achieved integration and the amount of work required, would increase. Nevertheless, the services offered by the integrated systems should remain mostly unchanged across the three levels of integration. 
+
+
+\subsubsection{Basic Integration Approach - Decoupled Knowledge and Data}
+
+In this level for each of the profiles in the Peer Manager, A-PPL will have a corresponding Pii structure in its database. The general idea is shown in the following picture.
+
+\begin{figure*}[htb!]
+\centering
+\includegraphics[width=0.8\linewidth]{figures/pm-ppl-lv1.png}
+\caption{Basic Integration between the PM and PPL.}
+\label{fig:pm-ppl-lv1.png}
+\end{figure*}
+
+It is important to note that the actual attribute information in the profile is not immediately accessible even to its owner (we may go as far as to encrypt it if necessary) and to read this information it needs to read the corresponding Pii entity stored in A-PPL (thus having to comply with the policy that protects the Pii).
+Again, this is the simplest (but least effective way) to achieve integration and be absolutely sure that A-PPL authorizes the reading of the information in the Peer Manager Profile.
+Of course there are issues to address, like having only a single unchanging encryption\_key for  each profile undermines purpose biding (you ask access to the info for one purpose and once granted access you can do whatever you want with the info, even use it for other purposes). Nevertheless, for Proof-of-Concept integration (and for this year's deliverable) I strongly believe this approach to be of enough value.
+
+\subsubsection{Advanced Integration Approaches}
+In this level, the Peer Manager has learned better the inner details of PPL policies, so it is now able authorize the use of the information and store the information unencrypted (as shown in the following figure). 
+
+\begin{figure*}[htb!]
+\centering
+\includegraphics[width=0.6\linewidth]{figures/pm-ppl-lv2.png}
+\caption{Advanced Integration between the PM and PPL.}
+\label{fig:pm-ppl-lv2.png}
+\end{figure*}
+
+Note that the interaction with the A-PPL system is still used for the Policy storage (as the PM has still not learned at this point how these policies are represented). Furthermore, the Peer Manager will still ask the A-PPL system if a requested operation complies or not with a given policy (as the PM does not share the same semantic ontology as A-PPL it cannot know if a request complies with a Policy even if it has all information about both structure).
+
+In the final level of integration the Peer Manager will represent a Policy as an Entity, and the A-PPL ontology used for reasoning about policies will be migrated to a specific and protected Knowledge Base in the Peer Manager.
+With these two improvements, the Peer Manager is now able to support and enforce PPL without ever needing to call the A-PPL system. 
+
+
+\subsubsection{Implementing of the Basic Integration Approach}
+We will start with the level one integration, but in order to keep the generality we will make it possible to ask both about attributes and profiles. The profile will be treated as an ordinary attribute type. A profile is created for each purpose or combination of purposes needed.
+In order to introduce the fact that an attribute is tied to one or more profiles and that encryption is needed the PIIType structure will be expanded with the fields profileID and encryptionData, encryption data in turn will consists of the fields  key, method and a list of parameters. Since no attribute type values are stored currently all attributes are considered to have a null value and the encrytionData is returned rather than the attribute value when the attribute type is retrieved.
+In order to facilitate this the API of A-PPLE will be changed in the following way:
+\begin{enumerate}
+	\item We will add a structure containing profileID and encryption key in a many to one  relation to a PIITYPE. This will tie a list of profileID, encryptionData pairs to an attribute name and owner.
+	\item We will construct a simpler version of the createPII call that do not require the sender to know about the PII type and also require profileID and encryptionData when storing and remove the attribute value since that is already stored in the PeerProfile.
+	\item Since it can be cumbersome to make create calls for all attributes in a profile, if this should be needed we will violate the rest a bit and make a create call that takes a list of attributes and associated values and creates them in bulk. 
+	\item We will change the getPII to require a profile id as well and to return encryptionData rather than the value of the attribute if it succeeds.
+	\item  Like in 3 we will create a bulk call for retrieving multiple clearances and encryptionData for attribute names in bulk.
+In the cases when just the profile attribute is used for clearance there we will have to need a ppl policy just containing the attribute name ”profile”, the profileID and the purpose covered by that profile. In order to do this the value (id) of that profile would have to be known when the policy is created so we would in have one specific policy for each profile. This ppl policy will however be fairly simple at the start and only differ in the profileID and purpose.
+In order for A-PPLE and the Peer Manager to “understand” each other purpose names and attribute names needs to be aligned or known by both entities. 
+\end{enumerate}
