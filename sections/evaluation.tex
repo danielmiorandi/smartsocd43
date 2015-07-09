@@ -7,16 +7,17 @@
 %Intro to evaluation
 %\todo{missing section introduction}
 
-In this section we define the plans for evaluating the mechanisms proposed and implemented by the peer manager.
-The evaluation plan that we propose focuses the attention in the privacy-aware mechanisms of the peer manager and it is defined with two type of objectives in mind:
+In this section we define the methods and procedures for evaluating the PM. %mechanisms proposed and implemented by the peer manager.
+The evaluation plan that we propose focuses on the ability of the PM to ensure privacy. The evaluation consists of two phases:
+%-aware mechanisms of the peer manager and it is defined with two type of objectives in mind:
 \begin{itemize}
-\item Theoretic evaluation, which include analysis of the proposed mechanisms taking into consideration legal privacy requirements (identified in D4.1) and system requirements such us scalability and performance of the peer manager.
-\item User-centric evaluation, which include the identification of (possibly) additional requirements from participants of a HDA-CAS and the evaluation of the perception of users with regard to privacy functions considering that privacy is a secondary purpose when participating in the system.
+\item Theoretic evaluation, which include analysis of the ability of the proposed mechanisms to meet legal privacy requirements (identified in~\cite{D4.1}) and non-functional system requirements such us scalability and performance of the peer manager operations.
+\item User-centric evaluation, which includes the identification of (possibly) additional requirements from participants of a HDA-CAS pilot and the evaluation of the perception of users with regard to privacy features. % considering that privacy is a secondary purpose when participating in the system.
 \end{itemize}
 More details regarding the different parts of this plan are presented in the following subsections.
 %Privacy and security as a second concern
 
-\begin{table}
+\begin{table}[!ht]
 \begin{center}
 \begin{tabular}{| c | c | c | c |}
   \hline                       
@@ -39,41 +40,44 @@ More details regarding the different parts of this plan are presented in the fol
 
 
 \subsection{Analytic Validations}
-The analytic part of the validation include formal or semi-formal validations and analysis of the different properties of the system. This validation tests will be interested, in particular, in comparing the implemented version of the Peer Manager with its ideal counterpart described during the first and second year deliverables (requirement compliance) and also finding out ``the cost of privacy'' by calculating the overhead in time and space that implementing these privacy measures brings to general systems.
+The analytic part of the evsaluation includes formal or semi-formal validations and analysis of the different properties of the system. This validation tests will be focussed, in particular, on comparing the behaviour of the current PM implementation with its ideal counterpart described during the first and second year deliverables (requirement compliance) and also finding out ``the cost of privacy'' by calculating the overhead %in time and space that implementing these privacy measures brings to general systems.
+coming from the operations of the specific privacy-preserving methods implemented.
 
 The first results of this analytic validation activities will be reported during the third year review meeting of the project with the final results reported in D4.4 and the fourth year review meeting.
 
 \subsubsection{Requirement compliance}
-The requirement compliance of the peer manager comprises both evaluation of the general project requirements (found in the DoW and in D1.1??) and the compliance with the privacy requirements established in D4.1 and revised in D4.2.
+The requirement compliance of the peer manager comprises both evaluation of the general project requirements (found in the DoW and in~\cite{D1.1}) and the compliance with the privacy requirements established in~\cite{D4.1} and revised in ~\cite{D4.2}.
 
-For the compliance with the privacy requirements we plan to express a simplified version of the Peer Manager using the formalization of privacy sensitive systems found in [??]. We will then proceed to prove the extent to which the so represented Peer Manager is in fact compliant with the privacy requirements set in earlier version of this deliverable. 
+For the compliance with the privacy requirements we plan to express a simplified version of the Peer Manager using the formalization of privacy sensitive systems found in [??]. \todo{Add reference} We will then proceed to prove the extent to which the %so represented 
+Peer Manager is in fact compliant with the privacy requirements set in earlier version of this deliverable. 
 
-The strategy for validation of the project requirements will include applied methods such as unit and integration tests of the Peer Manager implementation; along with performance tests of the integrate Peer Manager as part of the project's use cases. For the last case, performance evaluations in both time and space will also be performed and reported accordingly.  
+The strategy for validating against the project requirements will include empirical methods such as unit and integration tests of the Peer Manager implementation; along with performance tests of the integrated Peer Manager as part of the project's use cases. %For the latter case, performance evaluation in both time and space will also be performed and reported accordingly.  %%DM: removed this, 'in both space and time' is rather obscure...
 
 \subsubsection{``Cost of privacy'' measurements}
-This exercise will compare the time and space complexity of two Peer Managers, one without any privacy considerations and the other (as developed for the project) compliant with the set privacy requirements. Generalizing one step further, it is expected that this comparison would be able to show an estimate of the cost in time and space complexity for complying with these privacy requirements (that are now part or being discussed to become part of the EU privacy legislation) in a wide-range of relevant systems.
+This exercise will compare the time and space complexity of two Peer Managers, one without any privacy-preserving mechanism and the other one (as developed for the project) compliant with the given privacy requirements. Generalizing one step further, it is expected that this comparison would be able to show an estimate of the cost in time and space complexity for complying with these privacy requirements (that are now part or being discussed to become part of the EU privacy legislation) in a wide-range of relevant ICT systems.
 
 More in particular, the time/space complexity in both the privacy-less and the privacy-enabled Peer Managers will be compared independently for storing information and reading/accessing this information, 
 
 \subsection{SmartShare Exploratory Survey}
 SmartShare is a ridesharing application developed by the SmartSociety consortium as test and validation of several of the project's ideas.  A trial using the SmartShare application is planned during the second half of 2015 in multiple Italian municipalities.  
 
-As part of the SmartShare trial, we plan to carry out an exploratory survey aimed initially to gauge the interest and knowledge of the participating users in privacy-related issues and technologies. Furthermore, based on these results we plan to adjust and create requirements related to the focused user activities and testing planned for year four.
+As part of the SmartShare trial, we plan to carry out an exploratory survey aimed initially to gauge the interest and knowledge of the participating users in privacy-related issues and technologies. Furthermore, based on these results we plan to adjust and create requirements related to the user activities and testing planned for year four.
  
 The list of the questions being asked in this exploratory survey can be found in the Appendix~\ref{sec:smartshare-survey} and the results of this validation activity will be reported during the third year review of the project.
 
 \subsection{Usage analysis of the SmartSociety Platform}
-Through integration with the SmartSociety platform the peer manager will be used in several of the small-scale experiments organized by WP8 and also the Virtualized Gamified Environment (shortened to VGE henceforth) developed as part of WP9.
+Through integration with the SmartSociety platform the peer manager will be used in several small-scale experiments organized by WP8 and alsoin  the Virtualized Gamified Environment (shortened to VGE henceforth) developed as part of WP9.
 
-In both the SmartSociety Platform and the VGE, the Peer manager has the role of being the storage and search index of the data/knowledge of the platform. As such, by analyzing usage patterns and then measuring the performance of the PM's most frequently used functionalities (e.g. creation of profiles, search of information) within the VGE we will be able to rate the success of the model, functionalities and technologies used within WP4. Furthermore, by generalizing this data to other CASs proposed as use cases within the project, we would be able to also conclude how important are these solutions for a wide range of CAS-related applications. More in particular this would extend the Requirement Compliance and the 'Cost of Privacy' results obtained individually with results from the Peer Manager integrated and in use as a component of the SmartSociety platform and the VGE. 
+In both the SmartSociety Platform and the VGE, the PM has the role of being the storage and search index of the data/knowledge of the platform. As such, by analyzing usage patterns and then measuring the performance of the PM's most frequently used functionalities (e.g. creation of profiles, search of information) within the VGE we will be able to rate the success of the model, functionalities and technologies used within WP4. Furthermore, by generalizing this data to other CASs proposed as use cases within the project, we would be able to also conclude how important are these solutions for a wide range of CAS-related applications. More in particular this would extend the Requirement Compliance and the 'Cost of Privacy' results obtained individually with results from the Peer Manager integrated and in use as a component of the SmartSociety platform and the VGE. 
 
 The privacy aspect of this needs to be evaluated not only based on the VGE system performance and implementation but also in regards of what type of experience it brings to its users. Because of this reason, WP4's Peer Manager needs to be also evaluated within the VGE by making use of information captured from users through interaction with the system. The specific factors to keep track in the usage of the VGE system include the use and creation of the privacy-enhanced profiles and specific level of privacy/openness that they are configured with.  Nevertheless the details of what are the specific activities and pieces of information that will be analysed for this validation exercise will be clarified when the VGE is better defined. 
 
-The results of this validation activity will be part of the D4.4 and will be reported during the fourth year review of the project.
+The results of this validation activity will be part of the D4.4 and will be reported during the final project review. 
+%fourth year review of the project.
 
 \subsection{Focused user activities and testing}
-The final focused user activities relating to the peer manager and platform-wide privacy considerations will be carried out during the fourth year of the project. We plan to use all previous validations (specially the SmartShare Exploratory Survey) to inform and better adjust this validation activity. 
+The final focussed user activities relating to the peer manager and platform-wide privacy considerations will be carried out during the fourth year of the project. We plan to use all previous validations (specially the SmartShare Exploratory Survey) to inform and better adjust this validation activity. 
 
 Based on this, further quantitative and qualitative user-related studies may be carried out, already aiming to validate not only the Peer Manager but also to draw project-wide and CAS-related conclusions of the exercise. 
 
-The results of this validation activity will be part of the D4.4 and will be reported during the fourth year review of the project.
+The results of this validation activity will be part of the D4.4 and will be reported during the final project review. 
