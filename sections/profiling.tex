@@ -3,7 +3,7 @@ The \emph{Peer Manager (PM)} is a fundamental building block of the SmartSociety
 \subsection{Mechanisms and algorithms}
 %\todo{Peer Manager Theory - including flow diagram, pseudo-code if needed, whatever explain how it works}
 
-The PM was designed as an extension of existing identity management systems, with the objective of keeping the information owned by peers private.
+The PM was designed as an extension of the notion of existing identity management systems\footnote{\url{https://en.wikipedia.org/wiki/Identity_management_system}}, with the objective of keeping the information owned by peers private.
 In order to provide a flexible management of information, the PM builds upon the notion of an \emph{entity-centric semantic enhanced model} that defines an extensible set of entity schemas providing the templates for an attribute-based representation of peers' characteristics~\cite{Giunchiglia_fromknowledge}. Additionally, the PM defines a \emph{storage and privacy protection model} by adding privacy regulations and considerations~\cite{Hartswood:2015fe}. 
 The design of this model pays special attention to different privacy issues discussed by the Council of Europe in its recommendation {\sc{cm}}/{\sc{rec}}(2010)13 on profiling \cite{CoE2010}, as well as 
 basic legal privacy principles enacted by the {\sc{eu}} Data Protection Directive 95/46/{\sc{ec}} \cite{EUDir95} and that affects profiles when they involve the storage and processing of personal data.
@@ -17,7 +17,7 @@ A key feature of the PM is that the privacy of peers is protected by allowing pe
 This allows, for example, a human peer to reveal whether it is a smoker and its age range (as a way to obfuscate the age and date of birth) when participating in a ride-sharing collective, while the same information can be hidden (i.e., completely obfuscated) when participating in a question-answering collective.
 
 %%% Architecture %%%
-The details about the internal architecture of the PM was presented in~\cite{D4.2,Hartswood:2015fe}, however, we recall one of its main component (i.e., the Peer Base) in the conceptual view shown in Figure~\ref{fig:peerManagerPlatform}. The Peer Base is composed of the following sub-components: 
+The details about the internal architecture of the PM was presented in~\cite{D4.2,Hartswood:2015fe}, however, we recall one of its main components (i.e., the Peer Base) in the conceptual view shown in Figure~\ref{fig:peerManagerPlatform}. The Peer Base is composed of the following sub-components: 
 \begin{itemize}
 \item A \emph{Platform-Wide Knowledge Base} (${KB}_{PW}$) that stores the core entity types and the underlying ontology, allowing interoperability among SmartSociety components. 
 \item A \emph{Platform-Wide Entity Base} (${EB}_{PW}$) that stores entity instances of general interests as well as public profiles of peers (i.e., information that each peer decides to publish in the platform about themselves).
