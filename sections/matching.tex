@@ -65,7 +65,11 @@ The more flexible access to search services can be exploited through the specifi
 
 Note that concept search is used within FROM and SELECT clauses, which means that there is no need to know the exact name of the entity type or attribute name. Concept search approach is used for matching entity types in \emph{from} clauses and attribute names in \emph{select} clauses. 
  For instance, in the case when there is a synonymy relationship between concepts \emph{restaurant} and \emph{bar} in the underlying knowledge base, the search to find all the restaurants can also be performed by using the query ``\texttt{FROM bar r}''.
-Another use of concept search query in \emph{from} clause can be to select a subset of all the entities for a given entity type. For instance, the query ``\texttt{FROM restaurant[description:steakhouse] r}'' requires that descriptions of found restaurant entities contain complex concepts which are more specific than complex concept for `steakhouse', e.g. `steakhouse in Trento'. \todo{Last sentence unclear, please clarify example}
+
+Another use of concept search query in \emph{from} clause can be to select a subset of all the entities for a given entity type. 
+This is done by adding additional constraints, using concept search syntax, into the \emph{from} clause.
+For instance, in the query ``\texttt{FROM bar [description:steakhouse] r}'', the additional constraint ``\texttt{[description:steakhouse]}'' requires that descriptions of found bar entities contain concepts which are more specific than the concept `steakhouse'. This means that a description containing `steakhouse in Trento' would comply with such requirement and the corresponding entity can be included in the search result. 
+%\todo{Last sentence unclear, please clarify example}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -113,16 +117,81 @@ Another use of concept search query in \emph{from} clause can be to select a sub
 %
 
 
-\subsubsection{Main Endpoints Documentation}
-\todo{The specification of the search APIs with an example will be added here for the final version of this document.}
+\subsubsection{Main Search Endpoint Documentation}
+%\todo{The specification of the search APIs with an example will be added here for the final version of this document.}
 
-\begin{tabular}{llp{4cm}p{5cm}}
-\toprule
-Method & Api & Description & Example \\
-\midrule
-GET & /peers/search & Returns a set of profile of the peers that match with the characteristics specified in the input query & \\
-\bottomrule
+The Table~\ref{tab:searchApi} shows the specification of the search API and a simple example of the call and response for searching all available peers for a generic task. 
+
+\begin{table}[htdp]
+\caption{Search API}
+\begin{center}
+
+\begin{tabular}{|l|l|p{9cm}|}
+\hline
+\textbf{Method} & \textbf{Api} & \textbf{Description} \\
+\hline
+GET & 
+instances/search & 
+Returns a set of entity instances that match with the characteristics specified in the input query. In the example, the call is used to obtain a list of users representing peers that matches with a set of requirement. \\
+\hline
+\multicolumn{3}{|c|}{\textbf{Call Example}} \\
+\hline
+\multicolumn{3}{|p{14cm}|}{
+\url{
+http://demos.disi.unitn.it:8080/smartsociety-score-api/instances/search?query=select\%20user1\%20from\%20User\%20user1\%20join\%20user1.entity\%20person1\%20where\%20person1.available\%20\%3D\%20true\&entityBase=5408\&instanceClass=Instance\&queryType=\%20EQL\&parseSemantics=false\&includeExplanation=false\&includeCount=false\&idsOnly=false\&pageIndex=1\&pageSize=10\&maxDepth=1\&includeSemantics=false\&maxValues=10\&includeAttributes=false\&createAttributeMap=false\&attributeFilterType=ATTRIBUTE\_DEF\_ID\&includeAttributesAsProperties=false\&includeTimestamps=false
+}}
+\\ 
+\hline
+\multicolumn{3}{|c|}{\textbf{Response Example}} \\
+\hline
+\multicolumn{3}{|p{14cm}|}{
+\{
+  ``@type'': ``EQLSearchResult'',
+  ``results'': [
+      [``6604''],
+      [``6605''],
+      [``6606'']
+  ]
+\}
+} \\
+\hline
+\multicolumn{3}{|c|}{\textbf{Response General}} \\
+\hline
+\multicolumn{3}{|p{14cm}|}{
+\{
+  ``@type'': ``EQLSearchResult'',
+  ``results'': [
+      [``\textcolor{ao(english)}{$\langle$ Returned userId 1$\rangle$}''],
+      \textcolor{ao(english)}{\ldots}
+      [``\textcolor{ao(english)}{$\langle$ Returned userId N$\rangle$}'']
+  ]
+\}
+} \\
+\hline
+
+
+%\multicolumn{3}{|l|}{\{} \\
+%\multicolumn{2}{|l}{``@type'': ``EQLSearchResult'',} & \\
+%\multicolumn{2}{|l}{``results'': [ } \\
+%\multicolumn{3}{|l|}{ [``6604''],} \\
+%\multicolumn{3}{|l|}{ [``6605''],} \\
+%\multicolumn{3}{|l|}{ [``6606''] } \\
+%\multicolumn{3}{|l|}{ ] }\\
+%\multicolumn{3}{|l|}{\}} \\
+%\hline
 \end{tabular}
+
+\end{center}
+\label{tab:searchApi}
+\end{table}%
+
+
+
+
+
+
+
+
 
 
 
