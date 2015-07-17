@@ -17,7 +17,7 @@ A key feature of the PM is that the privacy of peers is protected by allowing pe
 This allows, for example, a human peer to reveal whether it is a smoker and its age range (as a way to obfuscate the age and date of birth) when participating in a ride-sharing collective, while the same information can be hidden (i.e., completely obfuscated) when participating in a question-answering collective.
 
 %%% Architecture %%%
-The details about the internal architecture of the PM was presented in~\cite{D4.2,Hartswood:2015fe}, however, we recall one of its main components (i.e., the Peer Base) in the conceptual view shown in Figure~\ref{fig:peerManagerPlatform}. The Peer Base is composed of the following sub-components: 
+The details about the internal architecture of the PM was presented in~\cite{D4.2,Hartswood:2015fe}, however, we recall one of its main components (i.e., the Peer Base) in the conceptual view shown in Fig.~\ref{fig:peerManagerPlatform}. The Peer Base is composed of the following sub-components: 
 \begin{itemize}
 \item A \emph{Platform-Wide Knowledge Base} (${KB}_{PW}$) that stores the core entity types and the underlying ontology, allowing interoperability among SmartSociety components. 
 \item A \emph{Platform-Wide Entity Base} (${EB}_{PW}$) that stores entity instances of general interests as well as public profiles of peers (i.e., information that each peer decides to publish in the platform about themselves).
@@ -29,14 +29,14 @@ This storage separation for each of the peers and the platform is one of the Pri
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.65\linewidth]{figures/peerBase-diagram.pdf}
-	\caption{Partial view of the Peer Manager internal architecture. Each subject its assigned its own peer storage, while the platform itself offers a shared Knowledge and Entity storages for different interactions.}
+	\caption{Partial view of the Peer Manager internal architecture. Each subject is assigned its own peer storage, while the platform itself offers a shared Knowledge and Entity storages for different interactions.}
 	\label{fig:peerManagerPlatform}
 \end{figure}
 
 \subsection{Implementation}
 %{\it including how it has been implemented and specifications of APIs}
 
-The Peer Manager component has been developed by following a three -layers approach, where each layer leverages the basic services offered by the level below and composes them for producing higher-level services. The resulting structure is shown in Figure~\ref{fig:pm-component-layers}; each layer will be further described in the remainder of this section. 
+The Peer Manager component has been developed by following a three -layers approach, where each layer leverages the basic services offered by the level below and composes them for producing higher-level services. The resulting structure is shown in Fig.~\ref{fig:pm-component-layers}; each layer will be further described in the remainder of this section. 
 
 \begin{figure}[htbp]
 \centering
@@ -53,7 +53,7 @@ While these technologies represent previous work from the University of Trento, 
 No major changes have been done to the models or structures of the Peer Manager during the first half of Y-3 (so the research reported in previous deliverables still holds) but efforts to update these models to its final version will start in the second part of the year (as T1.4 restarts) and will have its results reported in Deliverable D1.3. No major changes are foreseen, so the underlying code and the exposed interfaces will likely be subject to minor revision only. 
 
 \subsubsection{Peer Manager Web API} \label{ssec:pm-web-api}
-This layer takes the Java classes that implement the Peer Manager Core and wraps them in HTTP API calls that serve as a basic interface that clients or other back-ends may call to have access to the services the Peer Manager provides. Figure~\ref{fig:pm-interaction-arch.png} shows the Peer Manager Web API and the other components of the Peer Manager as part of the SmartSociety architecture. 
+This layer takes the Java classes that implement the Peer Manager Core and wraps them in HTTP API calls that serve as a basic interface that clients or other back-ends may call to have access to the services the Peer Manager provides. Fig.~\ref{fig:pm-interaction-arch.png} shows the Peer Manager Web API and the other components of the Peer Manager as part of the SmartSociety architecture. 
 
 \begin{figure*}[htb!]
 \centering
@@ -62,7 +62,7 @@ This layer takes the Java classes that implement the Peer Manager Core and wraps
 \label{fig:pm-interaction-arch.png}
 \end{figure*}
 
-In Figure~\ref{fig:pm-interaction-arch.png} the directed arrow from the Peer Manager Web API to the Peer Manager conveys that the Peer Manager Web API contacts exclusively the Peer Manager Core to answer to the requests it gets from the other components.
+In Fig.~\ref{fig:pm-interaction-arch.png} the directed arrow from the Peer Manager Web API to the Peer Manager conveys that the Peer Manager Web API contacts exclusively the Peer Manager Core to answer to the requests it gets from the other components.
 
 No major changes to the APIs described in~\cite{D4.2} were introduced in Y-3. API specifications for this layer may be found in the Appendix~\ref{sec:pm-web-api-detail}.
 
@@ -70,7 +70,7 @@ No major changes to the APIs described in~\cite{D4.2} were introduced in Y-3. AP
 The Peer Manager abstraction layer API is an additional level of abstraction that aggregates one or more of the calls from the previous layer into a single one to make the services offered by the Peer Manager easier to use directly from client applications and other SmartSociety platform components. The Peer Manager abstraction layer was developed for Node.js using languages like Coffeescript and Javascript. 
 
 %Previous figure reference
-Figure~\ref{fig:pm-interaction-arch.png} shows how a client application and some of the internal components on the SmartSociety Platform (Orchestration Manager and A-PPL) that are planned to interact with the Peer Manager, do so through the Peer Manager abstraction layer API. Furthermore, the directed arrow going out from the Peer Manager abstraction layer API shows that it uses exclusively the Peer Manager Web API to answer all requests.
+Fig.~\ref{fig:pm-interaction-arch.png} shows how a client application and some of the internal components on the SmartSociety Platform (Orchestration Manager and A-PPL) that are planned to interact with the Peer Manager, do so through the Peer Manager abstraction layer API. Furthermore, the directed arrow going out from the Peer Manager abstraction layer API shows that it uses exclusively the Peer Manager Web API to answer all requests.
 
 %Comparison between calls from  the original API and this one
 As an example of the type of abstraction done in this layer consider the abstraction layer API call used for creating a new peer within the Peer Manager (shown in Appendix~\ref{sec:pm-abs-api-detail}). This single call invokes the following calls in the Peer Manager Web API:
@@ -93,7 +93,7 @@ In a close collaboration between WP4 and the University of Karlstad the followin
 
 \begin{enumerate}
 	\item \emph{Basic integration approach}: the main idea of this approach is that both the PM and PPL run in parallel as different independent services and that they exchange information through their service APIs. In practice (and as shown in Fig.~\ref{fig:pm-ppl-lv1.png}) this will mean that the information in the Peer Manager profiles is not directly accessible (e.g. it is encrypted) and it is not readable without having access to the key being stored in a Pii (Personal Identifying Information) structure within the A-PPL system  (e.g. an encryption key). To authorize a request the A-PPL system will read the policy in the ``agreed requirements'' and evaluate the current request complies with them sending back only a ``allow'' or ``deny'' response to the PM. 
-	\item \emph{Advanced integration approach}: in this approach both systems are still running independently in parallel  but the PM does understands how to read and enforce the agreed requirements encoded in PPL. The policies are still being created and stored in the A-PPL system and are dereferenced (as shown in Figure~\ref{fig:pm-ppl-lv2.png}) by the use of their identifiers.
+	\item \emph{Advanced integration approach}: in this approach both systems are still running independently in parallel  but the PM does understands how to read and enforce the agreed requirements encoded in PPL. The policies are still being created and stored in the A-PPL system and are dereferenced (as shown in Fig.~\ref{fig:pm-ppl-lv2.png}) by the use of their identifiers.
 \end{enumerate}
 
 \begin{figure*}[htb!]
