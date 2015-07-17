@@ -66,7 +66,7 @@ No major changes to the APIs described in~\cite{D4.2} were introduced in Y-3. AP
 This is a new component being developed specifically for the SmartSociety project and as such all code belonging to this layer will be open sourced. API Specifications for this layer may be found in the Appendix~\ref{sec:pm-abs-api-detail}.
 
 \subsubsection{Integration Approach with PPL policy language}
-\todo{Add A-PPL and Pii to the list of acronyms}
+%\todo{Add A-PPL and Pii to the list of acronyms}
 
 The Peer Manager theory presented in previous WP4 deliverables mentioned the need to include commonly agreed data handling policies between the source of the data (e.g. the person sharing the information) and the new data controller (e.g. the person that has received this information). Furthermore, one of the main novelties on the way that the Peer Manager handles this, is that the system will be able to enforce this commonly agreed data handling policy (named "agreed requirements" inside the Peer Manager theory) directly.
 
@@ -105,11 +105,11 @@ The mentioned problems are addressed within the advanced integration approach de
 A third integration approach may be proposed at this point, involving the migration of the ontology that A-PPL uses for creating and interpreting the policies to the Peer Manager as a separate Knowledge Base (KB) belonging to a ``A-PPL peer''. Once this is done the Peer Manager will be able to support and enforce PPL without ever needing to call the A-PPL system, the A-PPL peer will then become a special privileged peer providing the service of writing and interpreting PPL policies within the SmartSociety platform. 
 
 \subsubsection{Implementation of the Basic Integration Approach}
-\todo{Data flow diagrams for the two example operations can be provided if deemed interesting}
-\todo{Add appendix with A-PP call prototypes}
+%\todo{Data flow diagrams for the two example operations can be provided if deemed interesting}
+%\todo{Add appendix with A-PP call prototypes}
 The current integration of the Peer Manager and PPL policies follows the `basic' integration approach described in the previous section. This means that both A-PPL and the PM services are running independently in the same server and interacting via HTTP calls. 
 %The implementation status of this integration is currently being tested and debugged to allow its use in future SmartSociety platform validation exercises.
- Specific details of the A-PPL calls being used by the PM for this integration can be found in the Appendix~XX and below we present two examples of the flow between the two systems.
+ Specific details of the A-PPL calls being used by the PM for this integration can be found in the Appendix~\ref{sec:a-ppl-api-detail} and below we present two examples of the flow between the two systems.
 \begin{itemize}
 	\item \emph{Creation of a Profile}: when the PM receives a request to create a new profile, it makes the following steps:
 	\begin{enumerate}
