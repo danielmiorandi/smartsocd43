@@ -1,0 +1,71 @@
+The following section specifies examples of the calls that the current version of the Peer Manager invokes to interact with the A-PPL system. These calls were used as the basis for integration between the PM and PPL and are used to implement and enforce the policies contained in the "agreed requirements" attribute of the PM profiles.
+
+
+\subsection{Store methods}
+\subsubsection{Store attribute}
+Stores an attribute for an owner with a given profile id and pplxmlpolicy. Returns a json structure with a unique piiID.
+\begin{verbatim}
+http://localhost:8080/apple-rest/extpii/store/{owner}/{profileID}/
+{
+   ‘attributeName’: “theAttributeName”
+   ‘key’: “theEncryptionKey”
+   ‘method’: “theEncryptionMethod”
+   ‘parameters’:[ param: “parameter”]
+   ‘policy’:”PPLxmlPolicy”
+}
+\end{verbatim}
+
+\subsubsection{Store attribute (policy ID)}
+Stores an attribute for an owner with a given profile id and pplxmlpolicy.ID . Returns a json structure with a unique piiID.
+\begin{verbatim}
+http://localhost:8080/apple-rest/extpii/store/defaultpolicy/{owner}/{profileID}/
+{ 
+   ‘attributeName’: “theAttributeName”
+   ‘key’: “theEncryptionKey”
+   ‘method’: “theEncryptionMethod”
+   ‘parameters’:[ param: “parameter”]
+   ‘policyID’:”PPLxmlPolicyID”
+}
+\end{verbatim}
+
+\subsubsection{Store attributes}
+Stores a set of attributes for an owner with a given profile id and pplxmlpolicy. Returns a json structure with a list of unique piiID  for the attributes.
+\begin{verbatim}
+http://localhost:8080/apple-rest/extpii/store/all/{owner}/{profileID}/
+{
+   ‘attributes’: [  
+   { 
+      ‘attributeName’: “theAttributeName”
+      ‘key’: “theEncryptionKey”
+      ‘method’: “theEncryptionMethod”
+      ‘parameters’:[ param: “parameter”]
+      ‘policy’:”PPLxmlPolicy”
+   }]
+}
+\end{verbatim}
+
+\subsubsection{Store policy template}
+Stores a template pplxmlpolicy for an owner. Returns a json structure with a unique profileID.
+\begin{verbatim}
+http://localhost:8080/apple-rest/extpolicy/store/template/{owner}
+pplxmlpolicy
+\end{verbatim}
+
+\subsection{Retrieve methods}
+\subsubsection{Read pii encryption key}
+Returns a json structure with the key to decrypt the attribute.
+\begin{verbatim}
+http://localhost:8080/apple-rest/extpii /get/{owner}/{profileID}/{subject}/{action}
+{ 
+   ‘attributeName’: “theAttributeName”
+   ‘purpose: “theAttributeName”
+}
+\end{verbatim}
+
+\subsubsection{Read pii encryption keys}
+Returns a json list with the keys to decrypt the attributes for a given profileID.
+\begin{verbatim}
+http://localhost:8080/apple-rest/extpii /get/all/{owner}/{profileID}/{subject}/{action}
+\end{verbatim}
+
+Note that the reasons for using json for the non path parameters in the previous calls is for partly conformity and partly because some of these values (e.g. policy, attributeName and purpose) will in the general case contain URIs by them self thus making them unsuitable as being part of the call URI.
