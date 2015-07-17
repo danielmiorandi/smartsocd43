@@ -223,7 +223,7 @@ document class]
 {\bf Actual Delivery Date }& {\it \@bntr@deldate}\\ \hline
 {\bf Status}\footnotemark & {\it
   \@bntr@delstatus}\\ \hline
-{\bf Total Number of pages:} & \pageref{LastPage} \\ \hline
+{\bf Total Number of pages:} & 18 (without TOC, Appendixes, etc)  \\ \hline
 {\bf Keywords:}& {\it\@bntr@smartkeywords }\\ \hline
 \end{tabular}
 }\vskip1em

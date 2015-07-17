@@ -58,6 +58,8 @@ UNITN & Alethia Hume, Ronald Chenu\\
 \hline 
 %EC & Evaluator Component & System component in charge of evaluating the outcomes of each computation task (Sec.~\ref{sec:evaluator}).\\
 %\hline 
+A-PPL or A-PPLE & A PPL Engine & Current implementation of the PPL model.\\
+\hline
 CM & Context Manager & System componet in charge of monitoring the
 context the agent represented on the platform by a peer is in.\\
 \hline
@@ -70,11 +72,13 @@ IM & Incentives Manager & System component in charge of managing the implementat
 \hline 
 KB & Knowledge Base &  System component in charge of storing and managing the knowledge in the platform.\\
 \hline
-OM & Orchestration Manager &  System component in charge of
-orchestrating the lifecycle of tasks on the SmartSociety platform. \\
+OM & Orchestration Manager &  System component in charge of orchestrating the lifecycle of tasks on the SmartSociety platform. \\
 \hline 
+Pii & Personal Identifying Information & An information containing structure in the A-PPL system that may be protected by a policy. \\
+\hline
 PF & Programming Framework &  System component in charge of exposing
 appropriate primitives and interfaces to application developers.\\
+\hline
 PPL & PrimeLife Policy Language & A generic language for expressing
 privacy policies, developed within the scope of the PrimeLife
 EC-funded project. \\
@@ -149,6 +153,10 @@ communication channels between the platform and the peers. \\
 \newpage
 \section{EQL details} \label{sec:search-annex}
 \input{sections/search-annex}
+
+\newpage
+\section{A-PPL API} \label{sec:a-ppl-api-detail}
+\input{sections/a-ppl-api-details}
 
 \newpage
 \section{Peer Manager web API} \label{sec:pm-web-api-detail}
